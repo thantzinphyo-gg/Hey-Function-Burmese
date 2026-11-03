@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+output_model/
+*.safetensors
+*.bin
+*.parquet
+*.jsonl
+.env
+.cache/
