@@ -1,8 +1,6 @@
 # Gemma-Actions-MM
 
-[![Hugging Face Dataset](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dataset-blue)](https://huggingface.co/datasets/thantzinphyo/Gemma-Actions-MM)
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Model Architecture](https://img.shields.io/badge/Model-FunctionGemma--270M-orange)](https://huggingface.co/google/functiongemma-270m-it)
+### Burmese & English Function-Calling Dataset for Lightweight / Edge LLMs
 
 Official repository for fine-tuning and evaluating lightweight on-device Language Models on the **Gemma-Actions-MM** dataset — a multilingual (English, Burmese, and Code-Switching) function-calling benchmark for edge AI.
 
@@ -10,10 +8,10 @@ Official repository for fine-tuning and evaluating lightweight on-device Languag
 
 ## Overview
 
-- **Dataset on Hugging Face:** [thantzinphyo/Gemma-Actions-MM](https://huggingface.co/datasets/thantzinphyo/Gemma-Actions-MM)
-- **Total Examples:** 42,673 (38,833 Train / 3,840 Eval)
-- **Tool Taxonomy:** 61 distinct tools across device controls, communications, navigation, utilities, smart home, and vehicle IoT.
-- **Languages:** English (15,898), Burmese (13,096), and English-Burmese Code-Switching (13,679).
+- Dataset on Hugging Face: [thantzinphyo/Gemma-Actions-MM](https://huggingface.co/datasets/thantzinphyo/Gemma-Actions-MM)
+- Total Examples: 42,673 (38,833 Train / 3,840 Eval)
+- Tool Taxonomy: 61 distinct tools across device controls, communications, navigation, utilities, smart home, and vehicle IoT.
+- Languages: English (15,898), Burmese (13,096), and English-Burmese Code-Switching (13,679).
 
 ---
 
@@ -35,12 +33,14 @@ export HF_TOKEN="your_huggingface_token"
 
 ## Training
 
-The training script implements:
-- FP16 mixed-precision training.
-- Chunked cross-entropy to prevent high VRAM allocations on 256K vocabulary models.
-- Dynamic collation with zero-redundancy tool padding.
+The training pipeline uses Hugging Face Trainer with custom causal chunked cross-entropy:
+- Target function candidate extraction (~1,000 avg tokens)
+- Dynamic batch padding with causal collation
+- Zero-copy chunked cross-entropy (prevents 8GB VRAM allocation spike on 256K vocab)
+- FP16 mixed-precision training with gradient checkpointing
+- Real-time progress monitoring callback
 
-Run fine-tuning on a single GPU (e.g., Nvidia T4 / RTX 3090):
+Run fine-tuning:
 
 ```bash
 python train.py \
@@ -88,4 +88,4 @@ If you use this dataset or training pipeline in your research, please cite:
 
 ## License
 
-This project is licensed under the [Creative Commons Attribution 4.0 International (CC-BY-4.0)](LICENSE) license.
+This project is licensed under the Creative Commons Attribution 4.0 International (CC-BY-4.0) license.
