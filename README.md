@@ -53,9 +53,9 @@ Official open-source repository for training, fine-tuning, and evaluating lightw
 
 An end-to-end, all-in-one Jupyter notebook is available under `notebooks/`:
 
-- [`Hey_Function_270M_Training_and_Benchmark_v2.ipynb`](notebooks/Hey_Function_270M_Training_and_Benchmark_v2.ipynb)
+- [`Hey_Function_270M_Training_and_Benchmark.ipynb`](notebooks/Hey_Function_270M_Training_and_Benchmark.ipynb)
 
-This notebook runs out of the box on **Kaggle** (Tesla T4 GPU) or **Google Colab**, containing the complete pipeline: data download, memory-efficient candidate collation, full 1-epoch training with chunked cross-entropy, and Benchmark v2 evaluation.
+This notebook runs out of the box on **Kaggle** (Tesla T4 GPU) or **Google Colab**, containing the complete pipeline: data download, memory-efficient candidate collation, full 1-epoch training with chunked cross-entropy, and comprehensive evaluation.
 
 ---
 
@@ -75,7 +75,7 @@ export HF_TOKEN="your_huggingface_token"
 
 ---
 
-### Evaluation (Benchmark v2)
+### Evaluation
 
 Evaluate the pre-trained `Hey-270M-Alpha` model directly (dataset downloads automatically from Hugging Face if not found locally):
 

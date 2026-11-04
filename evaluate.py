@@ -1,6 +1,6 @@
 """Evaluation script for FunctionGemma on held-out function-calling benchmarks.
 
-Benchmark v2: Multi-Tool Aware evaluation with exact argument matching
+Multi-Tool Aware evaluation with exact argument matching
 across English, Burmese, and Code-Switching queries.
 """
 
@@ -81,8 +81,8 @@ def extract_all_tool_calls(text: str) -> List[Dict[str, Any]]:
 def clean_args(d: Any) -> Dict[str, Any]:
     return {k: v for k, v in d.items() if v is not None} if isinstance(d, dict) else {}
 
-def val_eq(v1: Any, v2: Any) -> bool:
-    s1, s2 = str(v1).strip().lower(), str(v2).strip().lower()
+def val_eq(val1: Any, val2: Any) -> bool:
+    s1, s2 = str(val1).strip().lower(), str(val2).strip().lower()
     if s1 == s2: return True
     try: return float(s1) == float(s2)
     except Exception: return False
@@ -127,7 +127,7 @@ def evaluate(
     per_tool = defaultdict(lambda: {"total": 0, "ok": 0})
 
     model.eval()
-    for idx in tqdm(sample_indices, desc="Evaluating Benchmark v2"):
+    for idx in tqdm(sample_indices, desc="Evaluating Benchmark"):
         msgs = parsed[idx]; reg = registers[idx]
         gt_calls = []
         for m in msgs:
@@ -179,7 +179,7 @@ def evaluate(
     def pct(n: int, d: int) -> float: return (n / d * 100) if d else 0.0
 
     print("\n" + "=" * 70)
-    print(f"Evaluation Benchmark v2 (Multi-Tool Aware | {overall['total']} samples)")
+    print(f"Evaluation Benchmark (Multi-Tool Aware | {overall['total']} samples)")
     print("=" * 70)
     print(f"{'Register':<14}{'Samples':>8}   {'Fn Acc':>8}   {'Arg Acc':>9}   {'EM':>7}")
     print("-" * 70)
