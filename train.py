@@ -45,7 +45,7 @@ class FunctionGemmaDataset(torch.utils.data.Dataset):
         messages_list: List[Any],
         global_tools: List[Dict[str, Any]],
         tokenizer: Any,
-        max_seq_length: int = 1536,
+        max_seq_length: int = 2800,
     ):
         self.messages_list = messages_list
         self.tools_by_name = {t["function"]["name"]: t for t in global_tools}
@@ -250,7 +250,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--batch_size", type=int, default=1)
     parser.add_argument("--grad_accum", type=int, default=32)
     parser.add_argument("--learning_rate", type=float, default=2e-5)
-    parser.add_argument("--max_seq_length", type=int, default=2100)
+    parser.add_argument("--max_seq_length", type=int, default=2800)
     parser.add_argument("--epochs", type=int, default=1)
     parser.add_argument("--device_id", type=int, default=0)
     return parser.parse_args()
