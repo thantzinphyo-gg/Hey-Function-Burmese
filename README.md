@@ -27,6 +27,18 @@ Official open-source repository for training, fine-tuning, and evaluating lightw
 
 ---
 
+---
+
+### Privacy & Synthetic Evaluation Notice
+
+- **ကိုယ်ရေးလုံခြုံမှုနှင့် စမ်းသပ်ချက် အသိပေးချက် (Burmese):**  
+  အမည်၊ အီးမေးလ်နှင့် ဖုန်းနံပါတ်များအားလုံးသည် အတုများဖြစ်ပြီး ဖုန်းနံပါတ်များတွင် နောက်ဆုံးဂဏန်း 00 ထည့်သွင်းထားပါသည်။ သီချင်း ခေါင်းစဉ် များအားလုံးသည် အတုများဖြစ်ပြီး မော်ဒယ် က အမှန်တကယ် Tool Calling လုပ်နိုင်ခြင်းရှိမရှိကို စမ်းသပ်ထားခြင်းသာဖြစ်သည် (ဥပမာ - "YouTube ကနေ စိုင်းစိုင်းရဲ့ ဝမ်းနည်းတတ်တဲ့ ချစ်သူ သီချင်း ဖွင့်ပါ" ကို ဖွင့်ခိုင်းခြင်းဖြစ်ပါသည်)။
+
+- **Privacy & Synthetic Data Policy (English):**  
+  All personal names, emails, and phone numbers in queries are synthetic. Phone numbers include a trailing `00` suffix to safeguard against real-world collision. All song titles and artist combinations are synthetic/hypothetical examples designed solely to evaluate whether the model can accurately trigger function calling and parse arguments.
+
+---
+
 ### Installation
 
 ```bash
