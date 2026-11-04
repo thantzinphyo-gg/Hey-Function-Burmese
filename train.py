@@ -229,7 +229,7 @@ def resolve_dataset(data_path: Optional[str], hf_token: Optional[str]) -> str:
 
     print("Downloading 'train.parquet' from Hugging Face Hub...")
     return hf_hub_download(
-        repo_id="thantzinphyo/Gemma-Actions-MM",
+        repo_id="thantzinphyo/Hey-Function-Burmese",
         filename="train.parquet",
         repo_type="dataset",
         token=hf_token,

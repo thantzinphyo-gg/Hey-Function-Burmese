@@ -143,7 +143,22 @@ def main() -> None:
     tokenizer = AutoTokenizer.from_pretrained(args.model_path)
     model = AutoModelForCausalLM.from_pretrained(args.model_path, torch_dtype=torch.float16).to(device)
 
-    tbl = pq.read_table(args.data_path, columns=["tools", "messages", "metadata"])
+    data_file = args.data_path
+    if not os.path.exists(data_file):
+        for candidate in ["train.parquet", "../train.parquet"]:
+            if os.path.exists(candidate):
+                data_file = candidate
+                break
+        else:
+            print("Downloading 'train.parquet' from Hugging Face Hub (thantzinphyo/Hey-Function-Burmese)...")
+            data_file = hf_hub_download(
+                repo_id="thantzinphyo/Hey-Function-Burmese",
+                filename="train.parquet",
+                repo_type="dataset",
+                local_dir=".",
+            )
+
+    tbl = pq.read_table(data_file, columns=["tools", "messages", "metadata"])
     global_tools = tbl.column("tools")[0].as_py()
     meta_col = tbl.column("metadata").to_pylist()
     msgs_col = tbl.column("messages").to_pylist()

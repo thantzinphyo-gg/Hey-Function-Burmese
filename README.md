@@ -1,17 +1,39 @@
-# Gemma-Actions-MM
+# Hey-Function-Burmese & Hey-270M-Alpha
 
-### Burmese & English Function-Calling Dataset for Lightweight / Edge LLMs
+### Burmese & English Function-Calling Dataset and On-Device Agent Suite
 
-Official repository for fine-tuning and evaluating lightweight on-device Language Models on the **Gemma-Actions-MM** dataset — a multilingual (English, Burmese, and Code-Switching) function-calling benchmark for edge AI.
+Official open-source repository for training, fine-tuning, and evaluating lightweight on-device Language Models on the **Hey-Function-Burmese** dataset. This repository accompanies the **Hey-270M-Alpha** function-calling model.
 
 ---
 
-## Overview
+## Resources
 
-- Dataset on Hugging Face: [thantzinphyo/Gemma-Actions-MM](https://huggingface.co/datasets/thantzinphyo/Gemma-Actions-MM)
-- Total Examples: 42,673 (38,833 Train / 3,840 Eval)
-- Tool Taxonomy: 61 distinct tools across device controls, communications, navigation, utilities, smart home, and vehicle IoT.
-- Languages: English (15,898), Burmese (13,096), and English-Burmese Code-Switching (13,679).
+- **Fine-Tuned Model:** [thantzinphyo/Hey-270M-Alpha](https://huggingface.co/thantzinphyo/Hey-270M-Alpha)
+- **Dataset on Hugging Face:** [thantzinphyo/Hey-Function-Burmese](https://huggingface.co/datasets/thantzinphyo/Hey-Function-Burmese)
+- **Base Architecture:** `google/functiongemma-270m-it` (270 Million parameters)
+
+---
+
+## Benchmark Evaluation Results
+
+Evaluated on a held-out test split of 200 samples across linguistic registers:
+
+| Register / Language | Samples | Fn Acc (%) |
+| :--- | :---: | :---: |
+| English | 83 | 75.9 |
+| Burmese | 38 | 60.5 |
+| Code-Switch | 79 | 45.6 |
+
+*Fn Acc (Tool Selection Accuracy): Measures the percentage of instances where the model correctly identified and triggered the exact target tool.*  
+*Note: Training was conducted as an Initial Baseline (1 Epoch) on a Kaggle NVIDIA Tesla T4 GPU with custom chunked cross-entropy.*
+
+---
+
+## Dataset Overview
+
+- **Total Examples:** 42,673 (38,833 Train / 3,840 Eval)
+- **Tool Taxonomy:** 61 distinct tools across device controls, communications, navigation, utilities, smart home, and vehicle IoT.
+- **Language Composition:** English (15,898), Burmese (13,096), and English-Burmese Code-Switching (13,679).
 
 ---
 
@@ -23,7 +45,7 @@ cd Gemma-Actions-MM
 pip install -r requirements.txt
 ```
 
-Set your Hugging Face access token (optional, only required if accessing gated model weights):
+If accessing gated or private model weights, export your Hugging Face access token:
 
 ```bash
 export HF_TOKEN="your_huggingface_token"
@@ -31,14 +53,26 @@ export HF_TOKEN="your_huggingface_token"
 
 ---
 
+## Evaluation
+
+Evaluate the pre-trained `Hey-270M-Alpha` model directly from Hugging Face Hub (the dataset will download automatically if not present locally):
+
+```bash
+python evaluate.py \
+    --model_path thantzinphyo/Hey-270M-Alpha \
+    --samples 200
+```
+
+---
+
 ## Training
 
-The training pipeline uses Hugging Face Trainer with custom causal chunked cross-entropy:
-- Target function candidate extraction (~1,000 avg tokens)
+The training script reproduces the fine-tuning process using the `CleanCausalTrainer` architecture:
+- Target function candidate extraction
 - Dynamic batch padding with causal collation
-- Zero-copy chunked cross-entropy (prevents 8GB VRAM allocation spike on 256K vocab)
+- Zero-copy chunked cross-entropy (prevents VRAM allocation spikes on large vocabularies)
 - FP16 mixed-precision training with gradient checkpointing
-- Real-time progress monitoring callback
+- Real-time step progress callback
 
 Run fine-tuning:
 
@@ -46,41 +80,33 @@ Run fine-tuning:
 python train.py \
     --model_id google/functiongemma-270m-it \
     --output_dir ./functiongemma-270m-mm \
-    --batch_size 2 \
-    --grad_accum 16 \
+    --batch_size 1 \
+    --grad_accum 32 \
     --learning_rate 2e-5 \
-    --max_seq_length 1536 \
     --epochs 1
 ```
 
 ---
 
-## Evaluation
-
-Evaluate the fine-tuned model on held-out samples:
-
-```bash
-python evaluate.py \
-    --model_path ./functiongemma-270m-mm \
-    --data_path train.parquet \
-    --samples 200
-```
-
-This outputs tool selection accuracy, argument match accuracy, and overall exact match percentages across English, Burmese, and Code-Switching queries.
-
----
-
 ## Citation
 
-If you use this dataset or training pipeline in your research, please cite:
+If you use this model, dataset, or training pipeline in your research or applications, please cite:
 
 ```bibtex
-@dataset{gemma_actions_mm_2026,
-  title={Gemma-Actions-MM: A Burmese & English Function-Calling Dataset for Lightweight / Edge LLMs},
+@misc{hey_270m_alpha_2026,
+  title={Hey-270M-Alpha: A Lightweight On-Device Burmese & English Function-Calling Agent},
   author={Thant Zin Phyo},
   year={2026},
   publisher={Hugging Face},
-  howpublished={\url{https://huggingface.co/datasets/thantzinphyo/Gemma-Actions-MM}}
+  howpublished={\url{https://huggingface.co/thantzinphyo/Hey-270M-Alpha}}
+}
+
+@dataset{hey_function_burmese_2026,
+  title={Hey-Function-Burmese: A Burmese & English Function-Calling Dataset for Lightweight / Edge LLMs},
+  author={Thant Zin Phyo},
+  year={2026},
+  publisher={Hugging Face},
+  howpublished={\url{https://huggingface.co/datasets/thantzinphyo/Hey-Function-Burmese}}
 }
 ```
 
@@ -88,4 +114,5 @@ If you use this dataset or training pipeline in your research, please cite:
 
 ## License
 
-This project is licensed under the Creative Commons Attribution 4.0 International (CC-BY-4.0) license.
+- Code and Model: [Apache 2.0 License](LICENSE), subject to the upstream [Gemma Terms of Use](https://ai.google.dev/gemma/terms).
+- Dataset: [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/).
