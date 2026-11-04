@@ -1,22 +1,14 @@
-# Hey-Function-Burmese & Hey-270M-Alpha
+# Hey-Function-Burmese
 
-### Burmese & English Function-Calling Dataset and On-Device Agent Suite
+> Lightweight On-Device Burmese (Myanmar) & English Function-Calling Suite
 
-Official open-source repository for training, fine-tuning, and evaluating lightweight on-device Language Models on the **Hey-Function-Burmese** dataset. This repository accompanies the **Hey-270M-Alpha** function-calling model.
+[Model (Hey-270M-Alpha)](https://huggingface.co/thantzinphyo/Hey-270M-Alpha) • [Dataset (Hey-Function-Burmese)](https://huggingface.co/datasets/thantzinphyo/Hey-Function-Burmese) • [Base Model (FunctionGemma-270M)](https://huggingface.co/google/functiongemma-270m-it)
 
----
-
-## Resources
-
-- **Fine-Tuned Model:** [thantzinphyo/Hey-270M-Alpha](https://huggingface.co/thantzinphyo/Hey-270M-Alpha)
-- **Dataset on Hugging Face:** [thantzinphyo/Hey-Function-Burmese](https://huggingface.co/datasets/thantzinphyo/Hey-Function-Burmese)
-- **Base Architecture:** `google/functiongemma-270m-it` (270 Million parameters)
+Official open-source repository for training, fine-tuning, and evaluating lightweight on-device function-calling agents for Burmese, English, and code-switching natural language instructions.
 
 ---
 
-## Benchmark Evaluation Results
-
-Evaluated on a held-out test split of 200 samples across linguistic registers:
+### Benchmark Results (Held-out Test Set)
 
 | Register / Language | Samples | Fn Acc (%) |
 | :--- | :---: | :---: |
@@ -24,28 +16,26 @@ Evaluated on a held-out test split of 200 samples across linguistic registers:
 | Burmese | 38 | 60.5 |
 | Code-Switch | 79 | 45.6 |
 
-*Fn Acc (Tool Selection Accuracy): Measures the percentage of instances where the model correctly identified and triggered the exact target tool.*  
-*Note: Training was conducted as an Initial Baseline (1 Epoch) on a Kaggle NVIDIA Tesla T4 GPU with custom chunked cross-entropy.*
+*Fn Acc (Tool Selection Accuracy) on 200 held-out samples. Initial Baseline (1 Epoch).*
 
 ---
 
-## Dataset Overview
+### Dataset Summary
 
-- **Total Examples:** 42,673 (38,833 Train / 3,840 Eval)
-- **Tool Taxonomy:** 61 distinct tools across device controls, communications, navigation, utilities, smart home, and vehicle IoT.
-- **Language Composition:** English (15,898), Burmese (13,096), and English-Burmese Code-Switching (13,679).
+- **Total Samples:** 42,673 (38,833 Train / 3,840 Eval) across 61 mobile & edge tools.
+- **Language Composition:** English (15,898), Burmese (13,096), and Code-Switching (13,679).
 
 ---
 
-## Installation
+### Installation
 
 ```bash
-git clone https://github.com/thantzinphyo-gg/Gemma-Actions-MM.git
-cd Gemma-Actions-MM
+git clone https://github.com/thantzinphyo-gg/Hey-Function-Burmese.git
+cd Hey-Function-Burmese
 pip install -r requirements.txt
 ```
 
-If accessing gated or private model weights, export your Hugging Face access token:
+If accessing gated model weights, set your Hugging Face access token:
 
 ```bash
 export HF_TOKEN="your_huggingface_token"
@@ -53,28 +43,19 @@ export HF_TOKEN="your_huggingface_token"
 
 ---
 
-## Evaluation
+### Evaluation
 
-Evaluate the pre-trained `Hey-270M-Alpha` model directly from Hugging Face Hub (the dataset will download automatically if not present locally):
+Evaluate the pre-trained `Hey-270M-Alpha` model directly (dataset downloads automatically from Hugging Face if not found locally):
 
 ```bash
-python evaluate.py \
-    --model_path thantzinphyo/Hey-270M-Alpha \
-    --samples 200
+python evaluate.py --model_path thantzinphyo/Hey-270M-Alpha --samples 200
 ```
 
 ---
 
-## Training
+### Training Pipeline
 
-The training script reproduces the fine-tuning process using the `CleanCausalTrainer` architecture:
-- Target function candidate extraction
-- Dynamic batch padding with causal collation
-- Zero-copy chunked cross-entropy (prevents VRAM allocation spikes on large vocabularies)
-- FP16 mixed-precision training with gradient checkpointing
-- Real-time step progress callback
-
-Run fine-tuning:
+Fine-tune FunctionGemma using the memory-efficient `CleanCausalTrainer` architecture with chunked cross-entropy and response masking:
 
 ```bash
 python train.py \
@@ -88,9 +69,7 @@ python train.py \
 
 ---
 
-## Citation
-
-If you use this model, dataset, or training pipeline in your research or applications, please cite:
+### Citation
 
 ```bibtex
 @misc{hey_270m_alpha_2026,
@@ -112,7 +91,7 @@ If you use this model, dataset, or training pipeline in your research or applica
 
 ---
 
-## License
+### License
 
-- Code and Model: [Apache 2.0 License](LICENSE), subject to the upstream [Gemma Terms of Use](https://ai.google.dev/gemma/terms).
+- Code & Model: [Apache 2.0 License](LICENSE), subject to Google's [Gemma Terms of Use](https://ai.google.dev/gemma/terms).
 - Dataset: [Creative Commons Attribution 4.0 International (CC-BY-4.0)](https://creativecommons.org/licenses/by/4.0/).
