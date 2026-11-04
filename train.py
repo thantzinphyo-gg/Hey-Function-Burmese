@@ -73,8 +73,8 @@ class FunctionGemmaDataset(torch.utils.data.Dataset):
                         called.append(name)
 
         sample_tools = [self.tools_by_name[n] for n in called if n in self.tools_by_name]
-        if not sample_tools:
-            sample_tools = [self.global_tools[0]]
+        distractors = [t for n, t in self.tools_by_name.items() if n not in called]
+        sample_tools.extend(distractors[:2])
 
         text = self.tokenizer.apply_chat_template(msgs, tools=sample_tools, tokenize=False)
         input_ids = self.tokenizer(
@@ -247,10 +247,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data_path", type=str, default=None)
     parser.add_argument("--output_dir", type=str, default="./functiongemma-270m-mm")
     parser.add_argument("--hf_token", type=str, default=os.getenv("HF_TOKEN", None))
-    parser.add_argument("--batch_size", type=int, default=2)
-    parser.add_argument("--grad_accum", type=int, default=16)
+    parser.add_argument("--batch_size", type=int, default=1)
+    parser.add_argument("--grad_accum", type=int, default=32)
     parser.add_argument("--learning_rate", type=float, default=2e-5)
-    parser.add_argument("--max_seq_length", type=int, default=1536)
+    parser.add_argument("--max_seq_length", type=int, default=2100)
     parser.add_argument("--epochs", type=int, default=1)
     parser.add_argument("--device_id", type=int, default=0)
     return parser.parse_args()
