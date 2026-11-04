@@ -1,4 +1,4 @@
-"""Fine-tuning pipeline for FunctionGemma on the Gemma-Actions-MM dataset.
+"""Fine-tuning pipeline for FunctionGemma on the Hey-Function-Burmese dataset.
 
 Uses Hugging Face Trainer with CleanCausalTrainer architecture:
 - Target function candidate extraction (~1,000 avg tokens)
@@ -242,7 +242,7 @@ def resolve_dataset(data_path: Optional[str], hf_token: Optional[str]) -> str:
 # ==============================================================================
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Fine-tune FunctionGemma on Gemma-Actions-MM")
+    parser = argparse.ArgumentParser(description="Fine-tune FunctionGemma on Hey-Function-Burmese")
     parser.add_argument("--model_id", type=str, default="google/functiongemma-270m-it")
     parser.add_argument("--data_path", type=str, default=None)
     parser.add_argument("--output_dir", type=str, default="./functiongemma-270m-mm")
