@@ -2,7 +2,7 @@
 
 > Lightweight On-Device Burmese (Myanmar) & English Function-Calling Suite
 
-[Model (Hey-270M-Alpha)](https://huggingface.co/thantzinphyo/Hey-270M-Alpha) • [Dataset (Hey-Function-Burmese)](https://huggingface.co/datasets/thantzinphyo/Hey-Function-Burmese) • [Base Model (FunctionGemma-270M)](https://huggingface.co/google/functiongemma-270m-it)
+[Model (Hey-Function-270M)](https://huggingface.co/thantzinphyo/Hey-Function-270M) • [Dataset (Hey-Function-Burmese)](https://huggingface.co/datasets/thantzinphyo/Hey-Function-Burmese) • [Base Model (FunctionGemma-270M)](https://huggingface.co/google/functiongemma-270m-it)
 
 Official open-source repository for training, fine-tuning, and evaluating lightweight on-device function-calling agents for Burmese, English, and code-switching natural language instructions.
 
@@ -77,10 +77,10 @@ export HF_TOKEN="your_huggingface_token"
 
 ### Evaluation
 
-Evaluate the pre-trained `Hey-270M-Alpha` model directly (dataset downloads automatically from Hugging Face if not found locally):
+Evaluate the pre-trained `Hey-Function-270M` model directly (dataset downloads automatically from Hugging Face if not found locally):
 
 ```bash
-python evaluate.py --model_path thantzinphyo/Hey-270M-Alpha --samples 200
+python evaluate.py --model_path thantzinphyo/Hey-Function-270M --samples 200
 ```
 
 ---
@@ -106,11 +106,11 @@ python train.py \
 
 ```bibtex
 @misc{hey_270m_alpha_2026,
-  title={Hey-270M-Alpha: A Lightweight On-Device Burmese & English Function-Calling Agent},
+  title={Hey-Function-270M: A Lightweight On-Device Burmese & English Function-Calling Agent},
   author={Thant Zin Phyo},
   year={2026},
   publisher={Hugging Face},
-  howpublished={\url{https://huggingface.co/thantzinphyo/Hey-270M-Alpha}}
+  howpublished={\url{https://huggingface.co/thantzinphyo/Hey-Function-270M}}
 }
 
 @dataset{hey_function_burmese_2026,

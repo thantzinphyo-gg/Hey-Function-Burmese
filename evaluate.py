@@ -204,7 +204,7 @@ def evaluate(
 
 def main():
     parser = argparse.ArgumentParser(description="Evaluate FunctionGemma on held-out benchmarks")
-    parser.add_argument("--model_path", type=str, default="thantzinphyo/Hey-270M-Alpha")
+    parser.add_argument("--model_path", type=str, default="thantzinphyo/Hey-Function-270M")
     parser.add_argument("--data_path", type=str, default=None)
     parser.add_argument("--samples", type=int, default=200)
     parser.add_argument("--seed", type=int, default=42)
